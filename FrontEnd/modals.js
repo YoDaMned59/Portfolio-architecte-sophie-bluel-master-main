@@ -217,7 +217,6 @@ console.log(isFormValid);
 fileInput.addEventListener('change', checkFormCompletion);
 titleInput.addEventListener('input', checkFormCompletion);
 categoryInput.addEventListener('change', checkFormCompletion);
-
 const resetInput = () => {
     fileInput.value = ""
     titleInput.value = ""
@@ -226,7 +225,6 @@ const resetInput = () => {
     previewImg.style.display = "none";
     submitButton.disabled = true;
         submitButton.style.backgroundColor = '';
-
 }
 
 

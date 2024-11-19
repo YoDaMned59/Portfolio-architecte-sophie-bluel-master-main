@@ -4,6 +4,13 @@ const password = document.querySelector("form #password");
 const form = document.querySelector("form");
 const errorMessage = document.querySelector(".loginSection p");
 
+// Rediriger vers index.html si l'utilisateur est déjà connecté
+document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('authToken')) {
+        window.location.href = 'index.html';
+    }
+});
+
 // Fonction de connexion 
 async function loginUser() {
     try {
