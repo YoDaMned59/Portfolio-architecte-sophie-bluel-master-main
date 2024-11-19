@@ -59,10 +59,12 @@ async function displayProjectModal() {
 displayProjectModal();
 
 // Fonction pour supprimer un projet
-function DeleteProject() {
+const DeleteProject = () => {
     const trashAll = document.querySelectorAll(".fa-trash-can");
     trashAll.forEach(trash => {
         trash.addEventListener("click", async (e) => {
+            const confirmDeletion = confirm("Voulez vous supprimer ce work ?");
+            if(!confirmDeletion) return;
             const id = trash.id;
             const authToken = localStorage.getItem('authToken');
             const init = {
@@ -85,12 +87,7 @@ function DeleteProject() {
                     }
                     throw new Error(errorMessage);
                 }
-                if (response.status === 204) {
-                    console.log("La suppression a réussi.");
-                } else {
-                    const data = await response.json();
-                    console.log("La suppression a réussi, voici la data :", data);
-                }
+                console.log("La suppression a réussi");
                 await loadAndDisplayWorks();
                 displayProjectModal();
             } catch (error) {
@@ -104,6 +101,11 @@ function displayAddModal() {
     btnAddModal.addEventListener("click", () => {
         modalAddProject.style.display = "flex"
         modalProjects.style.display = "none"
+        checkFormCompletion();
+        resetInput();
+        labelFile.style.display = "flex";
+        InconFile.style.display = "flex";
+        pFile.style.display = "flex";
     })
     arrowLeft.addEventListener("click", () => {
         modalAddProject.style.display = "none"
@@ -197,10 +199,11 @@ const titleInput = document.getElementById('title');
 const categoryInput = document.getElementById('category');
 
 // Fonction pour vérifier si tous les champs sont remplis
-function checkFormCompletion() {
-    const isFormValid = fileInput.files.length > 0 && 
-                        titleInput.value.trim() !== "" && 
-                        categoryInput.value.trim() !== "";
+function checkFormCompletion() {  
+    const isFormValid = fileInput.files.length > 0 &&
+        titleInput.value !== "" &&
+        categoryInput.value !== "";
+console.log(isFormValid);
 
     if (isFormValid) {
         submitButton.disabled = false;
@@ -215,7 +218,16 @@ fileInput.addEventListener('change', checkFormCompletion);
 titleInput.addEventListener('input', checkFormCompletion);
 categoryInput.addEventListener('change', checkFormCompletion);
 
-checkFormCompletion();
+const resetInput = () => {
+    fileInput.value = ""
+    titleInput.value = ""
+    categoryInput.value = ""
+    previewImg.src = ""
+    previewImg.style.display = "none";
+    submitButton.disabled = true;
+        submitButton.style.backgroundColor = '';
+
+}
 
 
 
